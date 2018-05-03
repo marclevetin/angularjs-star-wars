@@ -1,0 +1,12 @@
+{
+  "name": "angularjs-star-wars",
+  "version": "1.0.0",
+  "description": "A Galactic Directory of people in the Star Wars universe using the Star Wars API, built with AngularJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Marc Levetin",
+  "license": "ISC"
+}
