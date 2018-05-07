@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js" ng-app="app">
+<html ng-app="app">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,28 +10,30 @@
             crossorigin="anonymous">
         
     </head>
-    <body ng-controller="main">
+    <body ng-controller="mainController">
         <h1>Galactic Directory</h1>
         <h2>List of people</h2>
+        <button ng-click="printToConsole()">Button </button>
         <table>
             <thead>
                 <th>Name</th>
-                <th>Species</th>
-                <th>Actions</th>
+                <th>Height</th>
+                <th>Mass</th>
+                <th>Action</th>
             </thead>
             <tbody>
-                <tr>
-                    <td>Luke</td>
-                    <td>URL</td>
-                    <td>Edit</td>
-                </tr>
-                <tr><td><p>Optional more stuff for detail?</p></td></tr>
-                <tr>
-                    <td>Leia</td>
-                    <td>URL</td>
-                    <td>Edit</td>
+                <tr ng-repeat="person in people track by $index">
+                    <td>{{person.name}}</td>
+                    <td>{{person.height}}</td>
+                    <td>{{person.mass}}</td>
+                    <td ng-click="showMoreDetails($index)">More</td>
                 </tr>
             </tbody>
+            <div>
+                <p>More details go here.</p>
+                <p ng-click="clearActive()">Close button</p>
+                <p ng-repeat="(key, value) in active">{{key}}: {{value}}</p>
+            </div>
         </table>
 
         <h2></h2>
