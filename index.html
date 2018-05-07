@@ -1,18 +1,49 @@
 <!DOCTYPE html>
-<html class="no-js" ng-app="app">
+<html ng-app="app">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Galactic Directory</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous">
+        
     </head>
-    <body ng-controller="main">
-        <h1>Galactic Directory</h1>>
+    <body ng-controller="mainController">
+        <h1>Galactic Directory</h1>
         <h2>List of people</h2>
-        <p>Table goes here with brief information</p>
+        <button ng-click="printToConsole()">Button </button>
+        <table>
+            <thead>
+                <th>Name</th>
+                <th>Height</th>
+                <th>Mass</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="person in people track by $index">
+                    <td>{{person.name}}</td>
+                    <td>{{person.height}}</td>
+                    <td>{{person.mass}}</td>
+                    <td ng-click="showMoreDetails($index)">More</td>
+                </tr>
+            </tbody>
+            <div>
+                <p>More details go here.</p>
+                <p ng-click="clearActive()">Close button</p>
+                <p ng-repeat="(key, value) in active">{{key}}: {{value}}</p>
+            </div>
+        </table>
+
         <h2></h2>
         <script src="./node_modules/angular/angular.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
         <script src="app.js"></script>
     </body>
 </html>
