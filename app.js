@@ -1,19 +1,25 @@
 angular.module("app", [])
     .controller("mainController", ($scope, getStarWars) => {
-        const vm = this;
-        $scope.test = 'why wont this show up?';
-        $scope.test2 = "why wont this show up?";
-        $scope.people = [];
-        $scope.nextPage = "";
-        $scope.previousPage = "";
-        $scope.active = {}
+        $scope.allPeople = [];
+        $scope.activePerson = {};
+        $scope.lastFetchedPage = 1;
+
+
+        $scope.getMorePeople = function(number) {
+            return getStarWars.getPeople(number)
+                        .then(data => {
+                            angular.forEach(data.results, function (person) {
+                                $scope.allPeople.push(person);
+                            });
+                            $scope.lastFetchedPage += 1;
+                        })
+                        .catch((err) => { console.log(err) });
+        }
 
         getStarWars.getPeople(1)
             .then(data => {
-                $scope.people = data.results;
-                $scope.nextPage = data.next;
-                $scope.previousPage = data.previous;
-                
+                $scope.allPeople = data.results;
+                $scope.lastFetchedPage += 1;
             })
             .catch((err) => { console.log(err) });
 
@@ -22,20 +28,21 @@ angular.module("app", [])
         };
 
         $scope.showMoreDetails = function(index) {
-            $scope.active = $scope.people[index]
+            $scope.activePerson = $scope.allPeople[index];
         }
 
         $scope.clearActive = function() {
-            $scope.active = {};
+            $scope.activePerson = {};
         }
     })
     .service("getStarWars", function($http) {
         this.getPeople = (pageNumber) => {
+            const url = 'https://swapi.co/api/people/?page=' + pageNumber;
+
             return $http({
                 method: "GET",
-                url: `https://swapi.co/api/people/?page=${pageNumber}`,
-                cache: true,
-            }).then((data) => {return data.data})
+                url: url
+            }).then((data) => { return data.data })
             .catch((err) => {console.log(err)});
         }
     })

@@ -14,27 +14,30 @@
         <h1>Galactic Directory</h1>
         <h2>List of people</h2>
         <button ng-click="printToConsole()">Button </button>
-        <table>
-            <thead>
-                <th>Name</th>
-                <th>Height</th>
-                <th>Mass</th>
-                <th>Action</th>
-            </thead>
-            <tbody>
-                <tr ng-repeat="person in people track by $index">
-                    <td>{{person.name}}</td>
-                    <td>{{person.height}}</td>
-                    <td>{{person.mass}}</td>
-                    <td ng-click="showMoreDetails($index)">More</td>
-                </tr>
-            </tbody>
-            <div>
-                <p>More details go here.</p>
-                <p ng-click="clearActive()">Close button</p>
-                <p ng-repeat="(key, value) in active">{{key}}: {{value}}</p>
-            </div>
-        </table>
+        <button ng-click="getMorePeople(lastFetchedPage)">Get More People</button>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <th>Name</th>
+                    <th>Height</th>
+                    <th>Mass</th>
+                    <th>Action</th>
+                </thead>
+                <tbody>
+                    <tr ng-cloak ng-repeat="person in allPeople track by $index">
+                        <td>{{person.name}}</td>
+                        <td>{{person.height}}</td>
+                        <td>{{person.mass}}</td>
+                        <td ng-click="showMoreDetails($index)">More details</td>
+                    </tr>
+                </tbody>
+                <div ng-cloak>
+                    <p>More details go here.</p>
+                    <p ng-click="clearActive()">Close button</p>
+                    <p ng-repeat="(key, value) in active">{{key}}: {{value}}</p>
+                </div>
+            </table>
+        </div>
 
         <h2></h2>
         <script src="./node_modules/angular/angular.js"></script>
