@@ -13,8 +13,8 @@
     <body ng-controller="mainController">
         <h1>Galactic Directory</h1>
         <h2>List of people</h2>
-        <button ng-click="printToConsole()">Button </button>
-        <button ng-click="getMorePeople(lastFetchedPage)">Get More People</button>
+        <button ng-click="printToConsole()">Button</button>
+        <button ng-click="getMorePeople(lastFetchedPage)" ng-disabled="!isThereMoreData">Get More People</button>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -31,10 +31,10 @@
                         <td ng-click="showMoreDetails($index)">More details</td>
                     </tr>
                 </tbody>
-                <div ng-cloak>
+                <div>
                     <p>More details go here.</p>
                     <p ng-click="clearActive()">Close button</p>
-                    <p ng-repeat="(key, value) in active">{{key}}: {{value}}</p>
+                    <p ng-repeat="(key, value) in activePerson">{{key}}: {{value}}</p>
                 </div>
             </table>
         </div>
