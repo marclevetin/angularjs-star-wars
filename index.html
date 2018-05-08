@@ -63,10 +63,10 @@
                     <p class="btn d-inline" ng-click="clearActive()">Close</p>
                     <p ng-show="!showEditForm" ng-repeat="(key, value) in activePerson">{{key | uppercase}}: {{value}}</p>
                 </div>
-                <form ng-cloak ng-show="showEditForm" ng-submit="processEditForm()">
+                <form ng-cloak ng-show="showEditForm" ng-submit="processEditForm($event)">
                     <div class="form-group" ng-repeat="(key, value) in activePerson">
                         <label for="{{key}}">{{key | uppercase}}</label>
-                        <input type="text" /> {{value}}
+                        <input type="text" name="{{key}}" placeholder="{{value}}" ng-model="formData[key]" ng-readonly="key === 'name'"/>
                     </div>
                     <input type="submit">
                 </form>

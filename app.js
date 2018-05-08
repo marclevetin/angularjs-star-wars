@@ -8,14 +8,14 @@ angular
     $scope.isOnFirstPage = true;
     $scope.activePage = 1;
     $scope.allPages = [];
-    $scope.form = {};
     $scope.showEditForm = false;
     $scope.showLoadingSpinner = true;
+    $scope.formData = {};
 
     // this function gets people for the next page.
     $scope.lastFetchedPage = 1;
     $scope.getMorePeople = function(number) {
-        $scope.showLoadingSpinner = true;
+      $scope.showLoadingSpinner = true;
       $scope.allPages.push(number);
       return getStarWars
         .getPeople(number)
@@ -45,6 +45,7 @@ angular
     $scope.showMoreDetails = function(index) {
       $scope.activePerson = $scope.allPeople[index];
       $scope.showActivePerson = true;
+      $scope.formData['name'] = $scope.allPeople[index]['name']
     };
 
     $scope.clearActive = function() {
@@ -96,8 +97,13 @@ angular
       $scope.showEditForm = !$scope.showEditForm;
     };
 
-    $scope.processEditForm = function() {
-      console.log($scope.form);
+    $scope.processEditForm = function(event) {
+        // In case it needs to be said, this method only changes data in $scope.  It does not post back to the API.
+        const objectToChange = $scope.allPeople.filter( object => object.name === $scope.formData.name )[0];
+      angular.forEach($scope.formData, function(value, key) {
+          debugger;
+          objectToChange[key] = value;
+      });
     };
 
     // this gets people the first time the page loads.
