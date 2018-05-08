@@ -2,6 +2,7 @@ angular
   .module("app", [])
   .controller("mainController", ($scope, getStarWars) => {
     $scope.allPeople = [];
+    $scope.showActivePerson = false;
     $scope.activePerson = {};
     $scope.isThereMoreData = true;
     $scope.isOnFirstPage = true;
@@ -36,11 +37,13 @@ angular
     };
 
     $scope.showMoreDetails = function(index) {
-      $scope.activePerson = $scope.allPeople[index];
+        $scope.activePerson = $scope.allPeople[index];
+        $scope.showActivePerson = true;
     };
 
     $scope.clearActive = function() {
-      $scope.activePerson = {};
+        $scope.activePerson = {};
+        $scope.showActivePerson = false;
     };
 
     $scope.setActivePage = function(number) {
