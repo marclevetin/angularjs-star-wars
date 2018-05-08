@@ -13,7 +13,7 @@
         <h1>Galactic Directory</h1>
         <h2>List of people</h2>
         <button ng-click="printToConsole()">Debugger Scope Button</button>
-        <button ng-click="getMorePeople(lastFetchedPage)" ng-disabled="!isThereMoreData">Get More People</button>
+        <button ng-click="getMorePeople(lastFetchedPage)">Get More People</button>
         <!-- Table pagination -->
         <nav aria-label="People table navigation">
             <ul class="pagination">
@@ -23,7 +23,7 @@
                 <li class="page-item" ng-class="{active: activePage === page}" ng-repeat="page in allPages" ng-model="activePage" ng-click="setActivePage(page)">
                     <a class="page-link" href="#">{{page}}</a>
                 </li>
-                <li class="page-item" ng-model="activePage" ng-click="setActivePage('Next')">
+                <li class="page-item" ng-class="{disabled: !isThereMoreData }" ng-model="activePage" ng-click="isThereMoreData && setActivePage('Next')">
                     <a class="page-link" href="#">Next</a>
                 </li>
             </ul>
