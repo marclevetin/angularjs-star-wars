@@ -39,11 +39,12 @@
                     <table class="table table-responsive table-striped table-sm">
                         <thead>
                             <th>Name</th>
-                            <th>Height</th>
-                            <th>Mass</th>
+                            <th>Height (cm)</th>
+                            <th>Mass (kg)</th>
                             <th>Action</th>
                         </thead>
                         <tbody>
+                            <tr ng-show="showLoadingSpinner"><td colspan="4">Loading</td></tr>
                             <tr ng-cloak ng-repeat="person in allPeople | filter: filterThings(activePage) track by $index">
                                 <td>{{person.name}}</td>
                                 <td>{{person.height}}</td>
@@ -56,11 +57,19 @@
             </div>
             <!-- More details section -->
             <div class="col-sm-6">
-                <div ng-if="showActivePerson">
+                <div ng-cloak ng-if="showActivePerson">
                     <h2 class="d-inline">Details</h2>
+                    <p class="btn d-inline" ng-click="toggleEditForm()">{{showEditFormButtonText}}</p>
                     <p class="btn d-inline" ng-click="clearActive()">Close</p>
-                    <p ng-repeat="(key, value) in activePerson">{{key | uppercase}}: {{value}}</p>
+                    <p ng-show="!showEditForm" ng-repeat="(key, value) in activePerson">{{key | uppercase}}: {{value}}</p>
                 </div>
+                <form ng-cloak ng-show="showEditForm" ng-submit="processEditForm($event)">
+                    <div class="form-group" ng-repeat="(key, value) in activePerson">
+                        <label for="{{key}}">{{key | uppercase}}</label>
+                        <input type="text" name="{{key}}" placeholder="{{value}}" ng-model="formData[key]" ng-readonly="key === 'name'"/>
+                    </div>
+                    <input type="submit">
+                </form>
             </div>
             <!-- End of more details section -->
         </div>

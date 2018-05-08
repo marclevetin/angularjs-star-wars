@@ -8,10 +8,15 @@ angular
     $scope.isOnFirstPage = true;
     $scope.activePage = 1;
     $scope.allPages = [];
+    $scope.showEditForm = false;
+    $scope.showEditFormButtonText = "Edit"
+    $scope.showLoadingSpinner = true;
+    $scope.formData = {};
 
     // this function gets people for the next page.
     $scope.lastFetchedPage = 1;
     $scope.getMorePeople = function(number) {
+      $scope.showLoadingSpinner = true;
       $scope.allPages.push(number);
       return getStarWars
         .getPeople(number)
@@ -24,8 +29,10 @@ angular
 
           // this block disables the "next" button.
           if (data.next === null) {
-                $scope.isThereMoreData = false;
+            $scope.isThereMoreData = false;
           }
+
+          $scope.showLoadingSpinner = false;
         })
         .catch(err => {
           console.log(err);
@@ -36,14 +43,18 @@ angular
       console.log($scope);
     };
 
-    $scope.showMoreDetails = function(index) {
-        $scope.activePerson = $scope.allPeople[index];
-        $scope.showActivePerson = true;
+    $scope.showMoreDetails = function(currentPageindex) {
+        const index = (($scope.activePage - 1) * 10) + currentPageindex;
+      $scope.activePerson = $scope.allPeople[index];
+      $scope.showActivePerson = true;
+      $scope.formData['name'] = $scope.allPeople[index]['name'];
+      $scope.showEditForm = false;
     };
 
     $scope.clearActive = function() {
-        $scope.activePerson = {};
-        $scope.showActivePerson = false;
+      $scope.activePerson = {};
+      $scope.showActivePerson = false;
+      $scope.showEditForm = false;
     };
 
     $scope.setActivePage = function(number) {
@@ -64,26 +75,40 @@ angular
         scope.getMorePeople(scope.activePage);
       }
 
-    // this block disables the "previous button".
+      // this block disables the "previous button".
       if (newVal === 1) {
-          $scope.isOnFirstPage = true;
+        $scope.isOnFirstPage = true;
       } else {
-          $scope.isOnFirstPage = false;
+        $scope.isOnFirstPage = false;
       }
     });
 
     $scope.filterThings = function(activePage) {
-        return function (value, index, array) {
-            const maxIndex = activePage * 10 - 1;
-            const minIndex = (activePage - 1) * 10;
+      return function(value, index, array) {
+        const maxIndex = activePage * 10 - 1;
+        const minIndex = (activePage - 1) * 10;
 
-            if (index >= minIndex && index <= maxIndex) {
-                return array[index]
-            } else {
-                return
-            }
+        if (index >= minIndex && index <= maxIndex) {
+          return array[index];
+        } else {
+          return;
         }
-    }
+      };
+    };
+
+    $scope.toggleEditForm = function() {
+      $scope.showEditForm = !$scope.showEditForm;
+      $scope.showEditFormButtonText = (!$scope.showEditForm) ? "Edit" : "Cancel";
+    };
+
+    $scope.processEditForm = function(event) {
+        // In case it needs to be said, this method only changes data in $scope.  It does not post back to the API.
+        const objectToChange = $scope.allPeople.filter( object => object.name === $scope.formData.name )[0];
+      angular.forEach($scope.formData, function(value, key) {
+          debugger;
+          objectToChange[key] = value;
+      });
+    };
 
     // this gets people the first time the page loads.
     $scope.getMorePeople(1);
@@ -103,4 +128,4 @@ angular
           console.log(err);
         });
     };
-  })
+  });
