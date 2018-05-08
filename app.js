@@ -4,6 +4,7 @@ angular
     $scope.allPeople = [];
     $scope.activePerson = {};
     $scope.isThereMoreData = true;
+    $scope.isOnFirstPage = true;
     $scope.activePage = 1;
     $scope.allPages = [];
 
@@ -22,7 +23,7 @@ angular
 
           // this block disables the "next" button.
           if (data.next === null) {
-            $scope.isThereMoreData = false;
+                $scope.isThereMoreData = false;
           }
         })
         .catch(err => {
@@ -54,9 +55,17 @@ angular
 
     $scope.$watch("activePage", function(newVal, oldVal, scope) {
       const havePageData = scope.allPages.includes(newVal);
+      // this block only fetches data if we don't already have it in scope
+      // this minimizes API calls
       if (!havePageData) {
-        // get new data
         scope.getMorePeople(scope.activePage);
+      }
+
+    // this block disables the "previous button".
+      if (newVal === 1) {
+          $scope.isOnFirstPage = true;
+      } else {
+          $scope.isOnFirstPage = false;
       }
     });
 
