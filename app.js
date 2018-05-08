@@ -8,6 +8,8 @@ angular
     $scope.isOnFirstPage = true;
     $scope.activePage = 1;
     $scope.allPages = [];
+    $scope.form = {};
+    $scope.showEditForm = false;
 
     // this function gets people for the next page.
     $scope.lastFetchedPage = 1;
@@ -44,6 +46,7 @@ angular
     $scope.clearActive = function() {
         $scope.activePerson = {};
         $scope.showActivePerson = false;
+        $scope.showEditForm = false;
     };
 
     $scope.setActivePage = function(number) {
@@ -83,6 +86,14 @@ angular
                 return
             }
         }
+    }
+
+    $scope.toggleEditForm = function() {
+        $scope.showEditForm = !$scope.showEditForm
+    }
+
+    $scope.processEditForm = function() {
+        console.log($scope.form)
     }
 
     // this gets people the first time the page loads.
