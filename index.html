@@ -39,8 +39,7 @@
                     <th>Action</th>
                 </thead>
                 <tbody>
-                        <tr ng-cloak ng-repeat="person in allPeople | filter: filterThings(activePage) track by $index">
-                    <!-- <tr ng-cloak ng-repeat="person in allPeople | filterPeople:activePage:'x' track by $index"> -->
+                    <tr ng-cloak ng-repeat="person in allPeople | filter: filterThings(activePage) track by $index">
                         <td>{{person.name}}</td>
                         <td>{{person.height}}</td>
                         <td>{{person.mass}}</td>
@@ -51,7 +50,7 @@
         </div>
         <!-- End of table -->
         <!-- More details section -->
-        <div>
+        <div ng-if="showActivePerson">
             <p>More details go here.</p>
             <p ng-click="clearActive()">Close button</p>
             <p ng-repeat="(key, value) in activePerson">{{key}}: {{value}}</p>
