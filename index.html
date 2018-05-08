@@ -57,9 +57,9 @@
             <!-- More details section -->
             <div class="col-sm-6">
                 <div ng-if="showActivePerson">
-                    <h2>Details</h2>
-                    <button class="btn" ng-click="clearActive()">Close button</button>
-                    <p ng-repeat="(key, value) in activePerson">{{key}}: {{value}}</p>
+                    <h2 class="d-inline">Details</h2>
+                    <p class="btn d-inline" ng-click="clearActive()">Close</p>
+                    <p ng-repeat="(key, value) in activePerson">{{key | uppercase}}: {{value}}</p>
                 </div>
             </div>
             <!-- End of more details section -->
