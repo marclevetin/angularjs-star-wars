@@ -44,6 +44,7 @@
                             <th>Action</th>
                         </thead>
                         <tbody>
+                            <tr ng-show="showLoadingSpinner"><td colspan="4">Loading</td></tr>
                             <tr ng-cloak ng-repeat="person in allPeople | filter: filterThings(activePage) track by $index">
                                 <td>{{person.name}}</td>
                                 <td>{{person.height}}</td>

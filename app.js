@@ -10,10 +10,12 @@ angular
     $scope.allPages = [];
     $scope.form = {};
     $scope.showEditForm = false;
+    $scope.showLoadingSpinner = true;
 
     // this function gets people for the next page.
     $scope.lastFetchedPage = 1;
     $scope.getMorePeople = function(number) {
+        $scope.showLoadingSpinner = true;
       $scope.allPages.push(number);
       return getStarWars
         .getPeople(number)
@@ -26,8 +28,10 @@ angular
 
           // this block disables the "next" button.
           if (data.next === null) {
-                $scope.isThereMoreData = false;
+            $scope.isThereMoreData = false;
           }
+
+          $scope.showLoadingSpinner = false;
         })
         .catch(err => {
           console.log(err);
@@ -39,14 +43,14 @@ angular
     };
 
     $scope.showMoreDetails = function(index) {
-        $scope.activePerson = $scope.allPeople[index];
-        $scope.showActivePerson = true;
+      $scope.activePerson = $scope.allPeople[index];
+      $scope.showActivePerson = true;
     };
 
     $scope.clearActive = function() {
-        $scope.activePerson = {};
-        $scope.showActivePerson = false;
-        $scope.showEditForm = false;
+      $scope.activePerson = {};
+      $scope.showActivePerson = false;
+      $scope.showEditForm = false;
     };
 
     $scope.setActivePage = function(number) {
@@ -67,34 +71,34 @@ angular
         scope.getMorePeople(scope.activePage);
       }
 
-    // this block disables the "previous button".
+      // this block disables the "previous button".
       if (newVal === 1) {
-          $scope.isOnFirstPage = true;
+        $scope.isOnFirstPage = true;
       } else {
-          $scope.isOnFirstPage = false;
+        $scope.isOnFirstPage = false;
       }
     });
 
     $scope.filterThings = function(activePage) {
-        return function (value, index, array) {
-            const maxIndex = activePage * 10 - 1;
-            const minIndex = (activePage - 1) * 10;
+      return function(value, index, array) {
+        const maxIndex = activePage * 10 - 1;
+        const minIndex = (activePage - 1) * 10;
 
-            if (index >= minIndex && index <= maxIndex) {
-                return array[index]
-            } else {
-                return
-            }
+        if (index >= minIndex && index <= maxIndex) {
+          return array[index];
+        } else {
+          return;
         }
-    }
+      };
+    };
 
     $scope.toggleEditForm = function() {
-        $scope.showEditForm = !$scope.showEditForm
-    }
+      $scope.showEditForm = !$scope.showEditForm;
+    };
 
     $scope.processEditForm = function() {
-        console.log($scope.form)
-    }
+      console.log($scope.form);
+    };
 
     // this gets people the first time the page loads.
     $scope.getMorePeople(1);
@@ -114,4 +118,4 @@ angular
           console.log(err);
         });
     };
-  })
+  });
