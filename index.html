@@ -59,7 +59,7 @@
             <div class="col-sm-6">
                 <div ng-cloak ng-if="showActivePerson">
                     <h2 class="d-inline">Details</h2>
-                    <p class="btn d-inline" ng-click="toggleEditForm()">Edit</p>
+                    <p class="btn d-inline" ng-click="toggleEditForm()">{{showEditFormButtonText}}</p>
                     <p class="btn d-inline" ng-click="clearActive()">Close</p>
                     <p ng-show="!showEditForm" ng-repeat="(key, value) in activePerson">{{key | uppercase}}: {{value}}</p>
                 </div>

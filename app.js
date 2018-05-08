@@ -9,6 +9,7 @@ angular
     $scope.activePage = 1;
     $scope.allPages = [];
     $scope.showEditForm = false;
+    $scope.showEditFormButtonText = "Edit"
     $scope.showLoadingSpinner = true;
     $scope.formData = {};
 
@@ -42,10 +43,12 @@ angular
       console.log($scope);
     };
 
-    $scope.showMoreDetails = function(index) {
+    $scope.showMoreDetails = function(currentPageindex) {
+        const index = (($scope.activePage - 1) * 10) + currentPageindex;
       $scope.activePerson = $scope.allPeople[index];
       $scope.showActivePerson = true;
-      $scope.formData['name'] = $scope.allPeople[index]['name']
+      $scope.formData['name'] = $scope.allPeople[index]['name'];
+      $scope.showEditForm = false;
     };
 
     $scope.clearActive = function() {
@@ -95,6 +98,7 @@ angular
 
     $scope.toggleEditForm = function() {
       $scope.showEditForm = !$scope.showEditForm;
+      $scope.showEditFormButtonText = (!$scope.showEditForm) ? "Edit" : "Cancel";
     };
 
     $scope.processEditForm = function(event) {
