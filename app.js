@@ -1,20 +1,20 @@
 angular
   .module("app", [])
   .controller("mainController", ($scope, getStarWars) => {
-    $scope.allPeople = [];
-    $scope.showActivePerson = false;
-    $scope.activePerson = {};
-    $scope.isThereMoreData = true;
-    $scope.isOnFirstPage = true;
-    $scope.activePage = 1;
-    $scope.allPages = [];
-    $scope.showEditForm = false;
-    $scope.showEditFormButtonText = "Edit"
-    $scope.showLoadingSpinner = true;
-    $scope.formData = {};
-
-    // this function gets people for the next page.
-    $scope.lastFetchedPage = 1;
+    $scope.allPeople = []; // collection of the people from the API.
+    $scope.showActivePerson = false; // turns on the details page.
+    $scope.activePerson = {}; // this is the active person.  The view iterates over the object to show the details.
+    $scope.isThereMoreData = true; // controls whether the Next button is enabled.
+    $scope.isOnFirstPage = true; // controls whether the Previous button is enabled.
+    $scope.activePage = 1; // controls which page has the "active" class in the Pagination control.
+    $scope.allPages = []; // shows all of the pages for which we have data.  Appears in the Pagination control.
+    $scope.showEditForm = false; // controls if the Details view is in the View state or the Edit state.
+    $scope.showEditFormButtonText = "Edit" // Edit or Cancel button on the Details view.
+    $scope.showLoadingSpinner = true; // controls if the Loading row appears in the table.
+    $scope.formData = {}; // collects the form data.
+    $scope.lastFetchedPage = 1; // this function gets people for the next page.
+    
+    // function that gets data for the next page.
     $scope.getMorePeople = function(number) {
       $scope.showLoadingSpinner = true;
       $scope.allPages.push(number);
@@ -32,6 +32,7 @@ angular
             $scope.isThereMoreData = false;
           }
 
+          // hides the Loading row.
           $scope.showLoadingSpinner = false;
         })
         .catch(err => {
@@ -39,24 +40,28 @@ angular
         });
     };
 
+    // utility function is for a debugger tool to see what's in scope.
     $scope.printToConsole = function() {
       console.log($scope);
     };
 
+    // this function opens the detail page
     $scope.showMoreDetails = function(currentPageindex) {
-        const index = (($scope.activePage - 1) * 10) + currentPageindex;
-      $scope.activePerson = $scope.allPeople[index];
-      $scope.showActivePerson = true;
+      const index = (($scope.activePage - 1) * 10) + currentPageindex; // ensures that the proper character's details are shown
+      $scope.activePerson = $scope.allPeople[index]; 
+      $scope.showActivePerson = true; 
       $scope.formData['name'] = $scope.allPeople[index]['name'];
       $scope.showEditForm = false;
     };
 
+    // closes the Detail page
     $scope.clearActive = function() {
       $scope.activePerson = {};
       $scope.showActivePerson = false;
       $scope.showEditForm = false;
     };
 
+    // Pagination control.  Controls which page number has the "Active" class
     $scope.setActivePage = function(number) {
       if (number === "Previous") {
         $scope.activePage = $scope.activePage - 1;
@@ -67,6 +72,7 @@ angular
       }
     };
 
+    // watcher to determine if we should ping the API for more data
     $scope.$watch("activePage", function(newVal, oldVal, scope) {
       const havePageData = scope.allPages.includes(newVal);
       // this block only fetches data if we don't already have it in scope
@@ -83,6 +89,7 @@ angular
       }
     });
 
+    // custom filter to show only the people that'd appear on that page.
     $scope.filterThings = function(activePage) {
       return function(value, index, array) {
         const maxIndex = activePage * 10 - 1;
@@ -95,6 +102,7 @@ angular
         }
       };
     };
+
 
     $scope.toggleEditForm = function() {
       $scope.showEditForm = !$scope.showEditForm;
